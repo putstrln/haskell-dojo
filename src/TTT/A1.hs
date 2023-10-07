@@ -29,7 +29,7 @@ _SEP_ = "_|_"
 
 -- Q#06
 
-data Square = X | O | Empty deriving Show
+data Square = X | O | Empty deriving (Show, Eq)
 
 -- Q#07
 

@@ -29,6 +29,16 @@ isColEmpty row i = go row i where
     go (x:xs) 0 = x == Empty
     go (x:xs) currI = go xs (currI - 1)
 
+_X_WIN_ = [ [X, O, O]
+          , [O, X, O]
+          , [O, O, X]
+          ]
+
+_O_WIN_ = [ [O, X, O]
+          , [X, X, O]
+          , [X, O, O]
+          ]
+
 -- Q#05
 
 dropFirstCol :: Board -> Board
@@ -40,7 +50,7 @@ dropLastCol = map init
 -- Q#06
 getDiag :: (Row -> Square) -> (Board -> Board) -> Board -> Line
 getDiag _ _ [] = []
-getDiag headOrTail dropFirstOrLastCol (x:xs) = headOrTail x : getDiag headOrTail dropFirstOrLastCol xs
+getDiag headOrTail dropFirstOrLastCol (x:xs) = headOrTail x : getDiag headOrTail dropFirstOrLastCol (dropFirstOrLastCol xs)
 
 getDiag1 :: Board -> Line
 getDiag1 = getDiag head dropFirstCol

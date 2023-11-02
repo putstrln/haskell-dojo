@@ -4,6 +4,7 @@ import Data.List (transpose)
 import TTT.A1
 import TTT.A2
 import Data.Bool (Bool(False))
+import Debug.Trace (trace)
 
 -- Q#01
 showInts :: [Int] -> [String]
@@ -64,8 +65,8 @@ getAllLines xs = xs ++ transpose xs ++ [getDiag1 xs] ++ [getDiag2 xs]
 -- Q#07
 putSquare :: Player -> Board -> Move -> Board
 putSquare p rs (rI, cI) = go rs rI where
-    go (x:xs) 0 = replaceSquareInRow p rI x : xs
-    go (x:xs) _ = x : go xs (rI - 1)
+    go (x:xs) 0 = replaceSquareInRow p cI x : xs
+    go (x:xs) r = x : go xs (r - 1)
     go [] _ = []
 
 -- Q#08
@@ -88,9 +89,9 @@ isWinningLine p l = isWinningLine_ False l where
 isValidMove :: Board -> Move -> Bool
 isValidMove b m@(rI, cI) =
     if isMoveInBounds m
-        then isValidMove_ b rI
+        then isValidMove_ b rI cI
         else False
     where
-        isValidMove_ (r:rs) 0 = isColEmpty r cI
-        isValidMove_ (r:rs) _ = isValidMove_ rs (rI - 1)
-        isValidMove_ [] _ = False
+        isValidMove_ (r:rs) 0 cI' = isColEmpty r cI'
+        isValidMove_ (r:rs) rI' cI' = isValidMove_ rs (rI' - 1) cI'
+        isValidMove_ [] _ _ = False

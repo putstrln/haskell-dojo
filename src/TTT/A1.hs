@@ -33,7 +33,7 @@ data Square = X | O | Empty deriving (Show, Eq)
 
 -- Q#07
 
-data GameState = X_WIN | O_WIN | TIE | IN_PROGRESS deriving Show
+data GameState = X_WIN | O_WIN | TIE | IN_PROGRESS deriving (Show, Eq)
 
 -- Q#08
 type Player = Square

@@ -16,7 +16,7 @@ data Game = Game {
 
 -- Q#02
 repeatedMove :: Move -> Game -> Bool
-repeatedMove m g = m `elem` secret g
+repeatedMove m g = m `elem` guess g
 
 -- Q#03
 makeGame :: Secret -> Game
@@ -82,11 +82,13 @@ isInDict :: Dictionary -> Secret -> Either GameException Secret
 isInDict d = validateSecret ((`elem` d) . map toLower) NotInDict
 
 -- Q#10
-validateNoDict = (isValidLength =<<) . hasValidChars
+validateNoDict s = case hasValidChars s of
+  Right _ -> isValidLength s
+  Left err -> Left err
 
 validateWithDict :: Dictionary -> Secret -> Either GameException Secret
 validateWithDict d s = case validateNoDict s of
-  Right _ -> Right s
+  Right _ -> isInDict d s
   Left err -> Left err
 
 -- Q#11
